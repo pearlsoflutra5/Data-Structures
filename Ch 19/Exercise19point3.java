@@ -2,7 +2,7 @@
 Author: Kacie Rae
 Date: 1-28-20
 
-Description: 
+Description: Removing duplicates from an Integer ArrayList.
  */
 import java.util.ArrayList;
 
