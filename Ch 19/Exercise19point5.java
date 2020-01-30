@@ -3,8 +3,9 @@ Author: Kacie Rae
 Date: 1-29-20
 
 Description: Find the max element in an ArrayList. 
- */
-public class Exercise19_05 {
+*/
+//import 
+public class Exercise19point5 {
   public static void main(String[] args) {
     Integer[] numbers = {1, 2, 3};
     System.out.println(max(numbers));
@@ -21,7 +22,7 @@ public class Exercise19_05 {
     
     public Circle(double radius) {
       this.radius = radius;
-    }
+  }
     
     @Override
     public int compareTo(Circle c) {
@@ -38,7 +39,13 @@ public class Exercise19_05 {
       return "Circle radius: " + radius;
     }
   }
-}
-public static <Circle extends Comparable<Circle>> Circle max(Circle[] list) {
-  
+  public static <E extends Comparable<E>> E max(E[] list) {
+    E max = list[0];
+    for (int i = 1; i < list.length; i++) {
+      if (list[i].compareTo(max) > 0) {
+        max = list[i];
+      }
+    }
+    return max;
+  }
 }
