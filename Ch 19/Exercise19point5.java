@@ -2,7 +2,7 @@
 Author: Kacie Rae 
 Date: 1-29-20
 
-Description: Find the max element in an ArrayList. 
+Description: Find the max element in an array. 
 */
 //import 
 public class Exercise19point5 {
