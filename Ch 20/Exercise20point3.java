@@ -1,8 +1,34 @@
-import java.util.Scanner;
+/*
+Author: Kacie Rae
+Date: 2-5-20
+Description: 
+*/
+
+import java.util.*;
 
 public class Exercise20point3 {
   public static void main(String[] args) {
-    String[][] stateCapital = {
+    LinkedList<String[]> list = new LinkedList<>();
+    Collections.addAll(list, stateCapitals);
+    Scanner input = new Scanner(System.in);
+    
+    int correctCount = 0;
+    while (list.size() > 0) {
+      Collections.shuffle(list);
+      String[] state = list.pollFirst();
+      System.out.print("What is the capital of " + state[0] +"? ");
+      if (input.nextLine().equalsIgnoreCase(state[1])) {
+        correctCount++;
+        System.out.println("Your answer is correct!");
+      }
+      else {
+        System.out.println("The correct answer is " + state[1]);
+      }
+    }
+      System.out.println("The correct count is " + correctCount);
+  }
+  
+  public static String[][] stateCapitals = {
       {"Alabama", "Montgomery"},
       {"Alaska", "Juneau"},
       {"Arizona", "Phoenix"},
@@ -54,24 +80,4 @@ public class Exercise20point3 {
       {"Wisconsin", "Madison"},
       {"Wyoming", "Cheyenne"}
     };
-
-    Scanner input = new Scanner(System.in);
-    
-    int correctCount = 0;
-
-    for (int i = 0; i < stateCapital.length; i++) {
-      // Prompt the user with a question
-      System.out.print("What is the capital of " + stateCapital[i][0] + "? ");
-      String capital = input.nextLine().trim().toLowerCase();
-      
-      if (capital.toLowerCase().equals(stateCapital[i][1].toLowerCase())) {
-        System.out.println("Your answer is correct");
-        correctCount++;
-      }
-      else
-        System.out.println("The correct answer should be " + stateCapital[i][1]);
-    }
-
-    System.out.println("The correct count is " + correctCount);
-  }
 }
