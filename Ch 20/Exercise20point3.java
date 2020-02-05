@@ -1,7 +1,7 @@
 /*
 Author: Kacie Rae
 Date: 2-5-20
-Description: 
+Description: Randomizing a list of state capitals using shuffle. 
 */
 
 import java.util.*;
