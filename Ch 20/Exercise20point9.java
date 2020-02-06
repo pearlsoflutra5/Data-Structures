@@ -1,7 +1,7 @@
 /*
 Author: Kacie Rae
 Date: 2-5-20
-Description:  
+Description: Adding different sized circles that bounce and remove the largest one. 
 */
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
