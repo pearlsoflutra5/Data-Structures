@@ -5,12 +5,11 @@ public class Exercise21point9 {
       Scanner input = new Scanner(System.in);
       Map<String, String> statesAndCapitals = getData();
       
+      System.out.print("Enter a state: ");
+      String state = input.nextLine();
+      state = state.substring(0,1).toUpperCase() + state.substring(1).toLowerCase();
       
-    
-      while(statesAndCapitals.get(state) != null) {
-        System.out.print("Enter a state: ");
-        String state = input.nextLine();
-        state = state.substring(0,1).toUpperCase() + state.substring(1).toLowerCase();
+      if(statesAndCapitals.get(state) != null) {
         System.out.println("The capital of " + state + " is " + statesAndCapitals.get(state));
       }
     }
