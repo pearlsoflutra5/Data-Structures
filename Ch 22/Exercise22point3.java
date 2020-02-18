@@ -1,5 +1,5 @@
 /*
-Author: Kacie Rae
+Author: Kacie Rae Cox
 Date: 2-18-20
 Description: Checking two strings to see if the second one is a substring of the first.
 */
