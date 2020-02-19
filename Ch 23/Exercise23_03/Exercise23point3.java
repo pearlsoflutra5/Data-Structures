@@ -1,7 +1,7 @@
 /*
-Author: 
-Date: 
-Description: 
+Author: Kacie Rae 
+Date: 2-19-20
+Description: Quick sorting lists using Comparator and Comparable.
 */
 import java.util.Comparator;
 
@@ -24,19 +24,17 @@ public class Exercise23point3 {
     public static <E extends Comparable<E>> void quickSort(E[] list) {
       quickSort(list, 0, list.length - 1);
     }
-    public static <E extends Comparable<E>> void quickSort(E[] list, int first, int last) {
+   public static <E extends Comparable<E>> void quickSort(E[] list, int first, int last) {
       if (last > first) {
         int pivotIndex = partition(list, first, last);
         quickSort(list, first, pivotIndex - 1);
         quickSort(list, pivotIndex + 1, last);
       }
     }
-    
     public static <E extends Comparable<E>> int partition(E[] list, int first, int last) { 
       E pivot = list[first];
       int low = first + 1; 
       int high = last; 
-      
       while (high > low) {
         while (low <= high && list[low].compareTo(pivot) <= 0) {
           low++;
@@ -66,7 +64,6 @@ public class Exercise23point3 {
     public static <E> void quickSort(E[] list, Comparator<? super E> comparator) {
       quickSort(list, 0, list.length - 1, comparator);
     }
-    
     public static <E> void quickSort(E[] list, int first, int last, Comparator<? super E> comparator) {
       if (last > first) {
         int pivotIndex = partition(list, first, last, comparator);
@@ -74,11 +71,10 @@ public class Exercise23point3 {
         quickSort(list, pivotIndex + 1, last, comparator);
       }
     }
-    
     public static <E> int partition(E[] list, int first, int last, Comparator<? super E> comparator) {
-      E pivot = list[first]; // Choose the first element as the pivot
-      int low = first + 1; // Index for forward search
-      int high = last; // Index for backward search
+      E pivot = list[first]; 
+      int low = first + 1; 
+      int high = last;
       while (high > low) {
         while (low <= high && comparator.compare(list[low], pivot) <= 0) {
           low++;
