@@ -1,3 +1,8 @@
+/*
+Author:Kacie Rae
+Date:2-26-20
+Description: implementing MyList, and MyAbstractList classes to manipulate ArrayLists.
+*/
 import java.util.*;
 
 public class Exercise24point1 {
