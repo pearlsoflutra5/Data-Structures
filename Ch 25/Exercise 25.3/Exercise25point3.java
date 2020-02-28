@@ -1,30 +1,21 @@
 import java.util.Scanner;
 
-public class Exercise25_03 {
+public class Exercise25point3 {
   public static void main(String[] args) {
-//    BST<Integer> tree = new BST<Integer>();
-//    
-//    Scanner input = new Scanner(System.in);
-//    
-//    // Prompt the user to enter 10 integers and store them in the tree
-//    System.out.print("Enter 10 numbers: ");
-//    for (int i = 0; i < 10; i++) {
-//      tree.insert(input.nextInt());
-//    }
-   
-//    tree.inorder();
-//    
-    BST<String> tree = new BST<String>();
-    tree.insert("George");
-    tree.insert("Michael");
-    tree.insert("Tom");
-    tree.insert("Adam");
-    tree.insert("Jones");
-    tree.insert("Peter");
-    tree.insert("John");
-    tree.insert("Daniel");
-
+    BST<Integer> tree = new BST<Integer>();   
+    Scanner input = new Scanner(System.in);
+    //Prompt the user to enter 10 integers and store them in the tree
+    System.out.print("Enter 10 numbers: ");
+    for (int i = 0; i < 10; i++) {
+      tree.insert(input.nextInt());
+    }
+ 
+    System.out.println("Recursive Inorder: ");
+    tree.inorder();
+    
+    System.out.println("\n\nNonrecursive Inorder: ");
     tree.nonRecursiveInorder();
+  
   }
 
   public static class BST<E extends Comparable<E>> extends AbstractTree<E> {
@@ -293,7 +284,20 @@ public class Exercise25_03 {
 
     /** Inorder traversal from the root */
     public void nonRecursiveInorder() {
-      
+      if (root == null) return;
+          java.util.Stack<TreeNode<E>> stack = new java.util.Stack<>();
+          TreeNode<E> current = root;
+          while (!stack.empty() || current != null) {
+            if (current != null) {
+              stack.push(current);
+              current = current.left;
+            }
+            else {
+              TreeNode<E> node = stack.pop();
+              System.out.print(node.element + " ");
+              current = node.right;
+            }
+          }
     }
   }
 }
