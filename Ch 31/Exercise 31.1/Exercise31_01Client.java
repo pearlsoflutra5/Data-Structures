@@ -11,6 +11,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import java.io.*;
+import java.net.*;
 
 public class Exercise31_01Client extends Application {
   // Text field for receiving radius
@@ -18,6 +20,8 @@ public class Exercise31_01Client extends Application {
   private TextField tfNumOfYears = new TextField();
   private TextField tfLoanAmount = new TextField();
   private Button btSubmit= new Button("Submit");
+  DataOutputStream toServer = null;
+  DataInputStream fromServer = null;
 
   // Text area to display contents
   private TextArea ta = new TextArea();
@@ -52,6 +56,37 @@ public class Exercise31_01Client extends Application {
     primaryStage.setTitle("Exercise31_01Client"); // Set the stage title
     primaryStage.setScene(scene); // Place the scene in the stage
     primaryStage.show(); // Display the stage
+    
+    btSubmit.setOnAction(e -> {
+      try {
+        double annualInterestRate = Double.parseDouble(tfAnnualInterestRate.getText().trim());
+        int numberOfYears = Integer.parseInt(tfNumOfYears.getText().trim());
+        double loanAmount = Double.parseDouble(tfLoanAmount.getText().trim());
+        toServer.writeDouble(annualInterestRate); 
+        toServer.writeInt(numberOfYears);
+        toServer.writeDouble(loanAmount);
+        toServer.flush();
+        Double monthlyPayment = fromServer.readDouble();
+        Double totalPayment = fromServer.readDouble();
+        ta.appendText("Annual Interest Rate: " + annualInterestRate + '\n');
+        ta.appendText("Number Of Years: " + numberOfYears + '\n');
+        ta.appendText("Loan Amount: " + loanAmount + '\n');
+        ta.appendText("monthlyPayment: " + monthlyPayment + '\n');
+        ta.appendText("totalPayment: " + totalPayment + '\n');
+      }
+      catch (IOException ex) {
+        System.err.println(ex);
+      }
+    });
+
+    try {
+      Socket socket = new Socket("localhost", 8000);
+      fromServer = new DataInputStream(socket.getInputStream());
+      toServer = new DataOutputStream(socket.getOutputStream());
+    }
+    catch (IOException ex) {
+      ta.appendText(ex.toString() + '\n');
+    }
   }
   
   /**
