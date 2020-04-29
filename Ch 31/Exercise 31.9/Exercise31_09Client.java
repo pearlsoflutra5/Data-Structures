@@ -7,16 +7,22 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import java.io.*;
+import java.net.*;
+import javafx.scene.input.*;
+import javafx.event.*;
 
 public class Exercise31_09Client extends Application {
   private TextArea taServer = new TextArea();
   private TextArea taClient = new TextArea();
+  DataOutputStream toServer = null;
+  DataInputStream fromServer = null;
  
   @Override // Override the start method in the Application class
   public void start(Stage primaryStage) {
     taServer.setWrapText(true);
     taClient.setWrapText(true);
-    //taServer.setDisable(true);
+    taServer.setDisable(true);
 
     BorderPane pane1 = new BorderPane();
     pane1.setTop(new Label("History"));
@@ -34,7 +40,40 @@ public class Exercise31_09Client extends Application {
     primaryStage.setScene(scene); // Place the scene in the stage
     primaryStage.show(); // Display the stage
 
-    // To complete later
+    taClient.setOnKeyPressed(event -> {
+      if (event.getCode() == KeyCode.ENTER) {
+        String text = taClient.getText().trim();
+        try {
+          toServer.writeUTF("C:" + text);
+          toServer.flush();
+          taClient.clear();
+        }
+        catch (IOException ex) {
+          System.err.println(ex);
+        }
+      }
+    });
+
+
+    try {
+      Socket socketServer = new Socket("localhost", 8000);
+      fromServer = new DataInputStream(socketServer.getInputStream());
+      toServer = new DataOutputStream(socketServer.getOutputStream());
+      new Thread(() -> {
+        try {
+            while (true){
+                String clientText = fromServer.readUTF().trim();
+                taServer.appendText(clientText + "\n");
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+      }).start();
+    }
+    catch (IOException ex) {
+      taServer.appendText(ex.toString() + '\n');
+    }
+    
   }
 
   /**
