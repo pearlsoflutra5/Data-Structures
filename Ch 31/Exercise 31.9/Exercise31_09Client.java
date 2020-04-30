@@ -39,11 +39,32 @@ public class Exercise31_09Client extends Application {
     primaryStage.setTitle("Exercise31_09Client"); // Set the stage title
     primaryStage.setScene(scene); // Place the scene in the stage
     primaryStage.show(); // Display the stage
-
+    
+    try {
+      Socket socketServer = new Socket("localhost", 8000);
+      toServer = new DataOutputStream(socketServer.getOutputStream());
+      fromServer = new DataInputStream(socketServer.getInputStream());
+      new Thread(() -> {
+        try {
+          while (true) { 
+            String serverText = fromServer.readUTF().trim();
+             taServer.appendText(serverText + "\n");
+          }        
+        } 
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
+      }).start();
+    }
+    catch (IOException ex) {
+      taServer.appendText(ex.toString() + '\n');
+    }
+    
     taClient.setOnKeyPressed(event -> {
       if (event.getCode() == KeyCode.ENTER) {
         String text = taClient.getText().trim();
         try {
+          taServer.appendText("C:" + text + "\n");
           toServer.writeUTF("C:" + text);
           toServer.flush();
           taClient.clear();
@@ -53,28 +74,8 @@ public class Exercise31_09Client extends Application {
         }
       }
     });
-
-
-    try {
-      Socket socketServer = new Socket("localhost", 8000);
-      fromServer = new DataInputStream(socketServer.getInputStream());
-      toServer = new DataOutputStream(socketServer.getOutputStream());
-      new Thread(() -> {
-        try {
-            while (true){
-                String clientText = fromServer.readUTF().trim();
-                taServer.appendText(clientText + "\n");
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-      }).start();
-    }
-    catch (IOException ex) {
-      taServer.appendText(ex.toString() + '\n');
-    }
-    
   }
+    
 
   /**
    * The main method is only needed for the IDE with limited

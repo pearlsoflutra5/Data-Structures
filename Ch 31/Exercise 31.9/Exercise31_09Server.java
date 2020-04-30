@@ -16,8 +16,6 @@ public class Exercise31_09Server extends Application {
   private TextArea taClient = new TextArea();
   DataOutputStream toServer = null;
   DataInputStream fromServer = null;
-  DataOutputStream toClient = null;
-  DataInputStream fromClient = null;
  
   @Override // Override the start method in the Application class
   public void start(Stage primaryStage) {
@@ -41,22 +39,13 @@ public class Exercise31_09Server extends Application {
     primaryStage.setScene(scene); // Place the scene in the stage
     primaryStage.show(); // Display the stage
     
-    /*
-    Each code should only have one Socket. Only your Server code should have a single ServerSocket Object.
-
-    To receive messages, you will have a Thread that reads the message and displays it.
-
-    To send messages, you will create a setOnKeyPressed() method outside of the Thread that will use the DataOutputSteam initialized in the Thread. To do this, the DataOutputSteam needs to be declared outside the Thread.
-    */      
-      new Thread(() -> {
+    new Thread(() -> {
         try {
           ServerSocket serverSocket = new ServerSocket(8000);
           Socket socket = serverSocket.accept();
-          DataInputStream inputFromServer = new DataInputStream(socket.getInputStream());
-          DataOutputStream outputToServer = new DataOutputStream(socket.getOutputStream());
-          
+          fromServer = new DataInputStream(socket.getInputStream());
           while (true) { 
-            String serverText = inputFromServer.readUTF().trim();
+            String serverText = fromServer.readUTF().trim();
              taServer.appendText(serverText + "\n");
           }
         }
@@ -67,7 +56,6 @@ public class Exercise31_09Server extends Application {
       
       try {
         Socket socketServer = new Socket("localhost", 8000);
-        fromServer = new DataInputStream(socketServer.getInputStream());
         toServer = new DataOutputStream(socketServer.getOutputStream());
       }
       catch (IOException ex) {
@@ -78,6 +66,7 @@ public class Exercise31_09Server extends Application {
         if (event.getCode() == KeyCode.ENTER) {
           String text = taClient.getText().trim();
           try {
+            taServer.appendText("S:" + text + "\n");
             toServer.writeUTF("S:" + text);
             toServer.flush();
             taClient.clear();
@@ -88,18 +77,8 @@ public class Exercise31_09Server extends Application {
         }
       });
 
-      
-      
-      
-      
-
-                  
-      
-
   }
   
-  
-
   /**
    * The main method is only needed for the IDE with limited
    * JavaFX support. Not needed for running from the command line.
