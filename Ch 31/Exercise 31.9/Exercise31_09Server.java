@@ -46,21 +46,14 @@ public class Exercise31_09Server extends Application {
           fromServer = new DataInputStream(socket.getInputStream());
           while (true) { 
             String serverText = fromServer.readUTF().trim();
-             taServer.appendText(serverText + "\n");
+            taServer.appendText(serverText + "\n");
+            toServer = new DataOutputStream(socket.getOutputStream());
           }
         }
         catch(IOException ex) {
           ex.printStackTrace();
         }
       }).start();
-      
-      try {
-        Socket socketServer = new Socket("localhost", 8000);
-        toServer = new DataOutputStream(socketServer.getOutputStream());
-      }
-      catch (IOException ex) {
-        taServer.appendText(ex.toString() + '\n');
-      }
       
       taClient.setOnKeyPressed(event -> {
         if (event.getCode() == KeyCode.ENTER) {

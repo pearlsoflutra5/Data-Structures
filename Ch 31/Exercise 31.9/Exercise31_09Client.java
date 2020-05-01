@@ -48,8 +48,8 @@ public class Exercise31_09Client extends Application {
         try {
           while (true) { 
             String serverText = fromServer.readUTF().trim();
-             taServer.appendText(serverText + "\n");
-          }        
+            taServer.appendText(serverText + "\n");
+                      }        
         } 
         catch (IOException ex) {
             ex.printStackTrace();
